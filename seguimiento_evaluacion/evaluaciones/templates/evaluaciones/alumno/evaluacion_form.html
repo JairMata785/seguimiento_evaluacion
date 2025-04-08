@@ -1,0 +1,82 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2>Evaluación del Docente</h2>
+            <h4>{{ docente.user.get_full_name }} - {{ materia.nombre }}</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" class="evaluation-form">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label class="form-label">A) Dominio de la asignatura</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="dominio_asignatura" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">B) Planificación del curso</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="planificacion_curso" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">C) Ambientes de aprendizaje</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="ambientes_aprendizaje" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">D) Estrategias, métodos y técnicas</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="estrategias_tecnicas" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">E) Motivación</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="motivacion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">F) Evaluación</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="evaluacion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">G) Comunicación</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="comunicacion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">H) Gestión del curso</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="gestion_curso" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">I) Tecnologías de la información y comunicación</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="tecnologias_informacion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">J) Satisfacción general</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="satisfaccion_general" %}
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Enviar Evaluación</button>
+                    <a href="{% url 'lista_docentes' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+.rating-group {
+    margin: 10px 0;
+}
+.rating-label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% include 'evaluaciones/components/back_button.html' with back_url='dashboard_docente' %}
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Autoevaluación Docente</h2>
+        </div>
+        <div class="card-body">
+            <form method="post" class="evaluation-form" id="autoEvalForm">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label class="form-label">Docencia</label>
+                    <small class="text-muted d-block mb-2">Evalúe su desempeño en actividades de enseñanza y aprendizaje</small>
+                    {% include 'evaluaciones/components/rating.html' with field_name="docencia" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Tutoría</label>
+                    <small class="text-muted d-block mb-2">Evalúe su desempeño en el acompañamiento académico a estudiantes</small>
+                    {% include 'evaluaciones/components/rating.html' with field_name="tutoria" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Gestión</label>
+                    <small class="text-muted d-block mb-2">Evalúe su participación en actividades administrativas y de gestión académica</small>
+                    {% include 'evaluaciones/components/rating.html' with field_name="gestion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Investigación</label>
+                    <small class="text-muted d-block mb-2">Evalúe su participación en proyectos de investigación y producción académica</small>
+                    {% include 'evaluaciones/components/rating.html' with field_name="investigacion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Vinculación</label>
+                    <small class="text-muted d-block mb-2">Evalúe su participación en actividades de vinculación con el sector productivo y social</small>
+                    {% include 'evaluaciones/components/rating.html' with field_name="vinculacion" %}
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">Guardar Evaluación</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

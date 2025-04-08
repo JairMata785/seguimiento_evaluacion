@@ -1,0 +1,239 @@
+{% extends 'evaluaciones/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="card dashboard-card">
+    <div class="card-header">
+        <h2>Panel de Control - Docente</h2>
+        <h5>Bienvenido, {{ user.get_full_name }}</h5>
+    </div>
+    <div class="card-body">
+        <!-- Filtros -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form method="get" class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha Inicio</label>
+                        <input type="date" name="fecha_inicio" class="form-control" 
+                               value="{{ request.GET.fecha_inicio }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">Fecha Fin</label>
+                        <input type="date" name="fecha_fin" class="form-control"
+                               value="{{ request.GET.fecha_fin }}">
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary me-2">Filtrar</button>
+                        <a href="{% url 'dashboard_docente' %}" class="btn btn-secondary">Limpiar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row mb-4">
+            <div class="col">
+                <a href="{% url 'autoevaluacion' %}" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i>Nueva Autoevaluación
+                </a>
+                <a href="{% url 'ver_mis_evaluaciones' %}" class="btn btn-info ms-2">
+                    <i class="fas fa-list me-2"></i>Ver Todas las Evaluaciones
+                </a>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Promedio Autoevaluación</h5>
+                        <h3>{{ promedios.auto|default:"N/A"|floatformat:2 }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Promedio Evaluación Alumnos</h5>
+                        <h3>{{ promedios.alumnos|default:"N/A"|floatformat:2 }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Promedio Evaluación Departamental</h5>
+                        <h3>{{ promedios.departamental|default:"N/A"|floatformat:2 }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="stats-container mb-4">
+            <div class="stat-card">
+                <h4>Promedio General</h4>
+                <canvas id="promediosChart"></canvas>
+            </div>
+            <div class="stat-card">
+                <h4>Evolución Temporal</h4>
+                <canvas id="evolucionChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Evaluations -->
+        <div class="row">
+            <!-- Autoevaluaciones -->
+            <div class="col-12 mb-4">
+                <h4>Autoevaluaciones Recientes</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Docencia</th>
+                                <th>Tutoría</th>
+                                <th>Gestión</th>
+                                <th>Investigación</th>
+                                <th>Vinculación</th>
+                                <th>Promedio Global</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for evaluacion in autoevaluaciones %}
+                            <tr>
+                                <td>{{ evaluacion.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ evaluacion.docencia|floatformat:2 }}</td>
+                                <td>{{ evaluacion.tutoria|floatformat:2 }}</td>
+                                <td>{{ evaluacion.gestion|floatformat:2 }}</td>
+                                <td>{{ evaluacion.investigacion|floatformat:2 }}</td>
+                                <td>{{ evaluacion.vinculacion|floatformat:2 }}</td>
+                                <td>{{ evaluacion.resultado_global|floatformat:2 }}</td>
+                                <td>
+                                    <a href="{% url 'descargar_reporte' evaluacion.id %}" 
+                                       class="btn btn-sm btn-info">
+                                        <i class="fas fa-file-pdf"></i> PDF
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="8" class="text-center">No hay autoevaluaciones registradas</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Evaluaciones de Alumnos -->
+            <div class="col-12 mb-4">
+                <h4>Evaluaciones de Alumnos Recientes</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Materia</th>
+                                <th>Satisfacción General</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for eval in evaluaciones_alumnos %}
+                            <tr>
+                                <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ eval.materia.nombre }}</td>
+                                <td>{{ eval.satisfaccion_general|floatformat:2 }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i> Ver Detalles
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No hay evaluaciones de alumnos registradas</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Evaluaciones Departamentales -->
+            <div class="col-12">
+                <h4>Evaluaciones Departamentales Recientes</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Resultado Final</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for eval in evaluaciones_departamentales %}
+                            <tr>
+                                <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ eval.resultado_final|floatformat:2 }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i> Ver Detalles
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">No hay evaluaciones departamentales registradas</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'js/charts.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Promedios Chart
+    const promediosCtx = document.getElementById('promediosChart').getContext('2d');
+    new Chart(promediosCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Autoevaluación', 'Evaluación Alumnos', 'Evaluación Departamental'],
+            datasets: [{
+                label: 'Promedio',
+                data: [
+                    {{ promedios.auto|default:"0" }},
+                    {{ promedios.alumnos|default:"0" }},
+                    {{ promedios.departamental|default:"0" }}
+                ],
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                ]
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

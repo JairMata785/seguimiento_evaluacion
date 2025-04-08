@@ -1,0 +1,49 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Mis Docentes</h2>
+    
+    {% if docentes_data %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Docente</th>
+                        <th>Materia</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in docentes_data %}
+                    <tr>
+                        <td>{{ item.docente.user.get_full_name }}</td>
+                        <td>{{ item.materia.nombre }}</td>
+                        <td>
+                            {% if item.evaluado %}
+                                <span class="badge bg-success">Evaluado</span>
+                            {% else %}
+                                <span class="badge bg-warning">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if not item.evaluado %}
+                                <a href="{% url 'evaluacion_docente' item.docente.id item.materia.id %}" 
+                                   class="btn btn-primary btn-sm">
+                                    Evaluar
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No hay docentes disponibles para evaluar en este momento.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

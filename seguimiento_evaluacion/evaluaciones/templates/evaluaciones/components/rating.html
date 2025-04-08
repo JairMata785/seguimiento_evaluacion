@@ -1,0 +1,9 @@
+{% load static %}
+<div class="rating-group">
+    <div class="btn-group" role="group">
+        {% for i in "12345" %}
+        <input type="radio" class="btn-check" name="{{ field_name }}" id="{{ field_name }}_{{ i }}" value="{{ i }}" required>
+        <label class="btn btn-outline-primary" for="{{ field_name }}_{{ i }}">{{ i }}</label>
+        {% endfor %}
+    </div>
+</div>

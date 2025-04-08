@@ -1,0 +1,125 @@
+/* General styles */
+body {
+    background-color: #f8f9fa;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.main-container {
+    padding: 2rem 1rem;
+    margin-top: 2rem;
+}
+
+/* Card styles */
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 1.25rem;
+}
+
+/* Button styles */
+.btn {
+    border-radius: 5px;
+    padding: 0.5rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+}
+
+/* Form styles */
+.form-control {
+    border-radius: 5px;
+    padding: 0.75rem;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+/* Table styles */
+.table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+}
+
+.table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+    color: #495057;
+    font-weight: 600;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+/* Navigation */
+.navbar {
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    background-color: white;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: #0d6efd;
+}
+
+/* Rating component styles */
+.rating-group {
+    margin: 1rem 0;
+}
+
+.btn-group .btn {
+    padding: 0.5rem 1rem;
+}
+
+/* Footer */
+footer {
+    background-color: white !important;
+    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 0;
+    margin-top: 3rem;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    transform: translateY(-2px);
+}
+
+/* Back button specific styles */
+.btn-secondary i {
+    transition: transform 0.3s;
+}
+
+.btn-secondary:hover i {
+    transform: translateX(-3px);
+}

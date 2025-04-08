@@ -1,0 +1,76 @@
+<div class="evaluation-results">
+    <div class="table-responsive mb-4">
+        <table class="table table-bordered">
+            <thead class="table-primary">
+                <tr>
+                    <th>Aspectos Evaluados</th>
+                    <th>Puntaje</th>
+                    <th>Calificación</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for aspect in evaluation_aspects %}
+                <tr>
+                    <td>{{ aspect.name }}</td>
+                    <td class="text-center">{{ aspect.score|floatformat:2 }}</td>
+                    <td class="text-center">{{ aspect.rating }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="table-info">
+                    <td><strong>TOTAL</strong></td>
+                    <td class="text-center"><strong>{{ total_score|floatformat:2 }}</strong></td>
+                    <td class="text-center"><strong>{{ total_rating }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="evaluationChart"></canvas>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('evaluationChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ aspect_labels|safe }},
+            datasets: [{
+                label: 'Puntaje por Aspecto',
+                data: {{ aspect_scores|safe }},
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+</script>
+
+<style>
+.evaluation-results {
+    margin: 20px 0;
+}
+.chart-container {
+    height: 400px;
+    margin: 20px 0;
+}
+</style>

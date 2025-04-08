@@ -1,0 +1,46 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2>Evaluación Departamental de Docentes</h2>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Número de Empleado</th>
+                        <th>Nombre del Docente</th>
+                        <th>Carrera</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for docente in docentes %}
+                    <tr>
+                        <td>{{ docente.numero_empleado }}</td>
+                        <td>{{ docente.user.get_full_name }}</td>
+                        <td>{{ docente.carrera.nombre }}</td>
+                        <td>
+                            <a href="{% url 'evaluacion_departamental' docente.id %}" 
+                               class="btn btn-primary btn-sm me-2">
+                                Evaluar
+                            </a>
+                            <a href="{% url 'ver_evaluaciones_docente' docente.id %}" 
+                               class="btn btn-info btn-sm">
+                                Ver Evaluaciones
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center">No hay docentes disponibles para evaluar</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,151 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% include 'evaluaciones/components/back_button.html' with back_url='dashboard_docente' %}
+    
+    <div class="card">
+        <h2>Mis Evaluaciones</h2>
+
+        <!-- Resumen de promedios -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Promedio Departamental</h5>
+                        <h3 class="card-text text-center">{{ promedios.departamental|floatformat:2|default:"N/A" }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Promedio Alumnos</h5>
+                        <h3 class="card-text text-center">{{ promedios.alumnos|floatformat:2|default:"N/A" }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Promedio Autoevaluación</h5>
+                        <h3 class="card-text text-center">{{ promedios.auto|floatformat:2|default:"N/A" }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Evaluaciones Departamentales -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Evaluaciones Departamentales</h4>
+            </div>
+            <div class="card-body">
+                {% if evaluaciones_departamentales %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Resultado Final</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for eval in evaluaciones_departamentales %}
+                            <tr>
+                                <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ eval.resultado_final|floatformat:2 }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-info">Ver Detalles</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No hay evaluaciones departamentales registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Evaluaciones de Alumnos -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Evaluaciones de Alumnos</h4>
+            </div>
+            <div class="card-body">
+                {% if evaluaciones_alumnos %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Satisfacción General</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for eval in evaluaciones_alumnos %}
+                            <tr>
+                                <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ eval.satisfaccion_general|floatformat:2 }}</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-info">Ver Detalles</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No hay evaluaciones de alumnos registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Autoevaluaciones -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Autoevaluaciones</h4>
+            </div>
+            <div class="card-body">
+                {% if autoevaluaciones %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Docencia</th>
+                                <th>Tutoría</th>
+                                <th>Gestión</th>
+                                <th>Resultado Global</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for eval in autoevaluaciones %}
+                            <tr>
+                                <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ eval.docencia|floatformat:2 }}</td>
+                                <td>{{ eval.tutoria|floatformat:2 }}</td>
+                                <td>{{ eval.gestion|floatformat:2 }}</td>
+                                <td>{{ eval.resultado_global|floatformat:2 }}</td>
+                                <td>
+                                    <a href="{% url 'descargar_reporte' eval.id %}" class="btn btn-sm btn-success">
+                                        Descargar Reporte
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No hay autoevaluaciones registradas.</p>
+                {% endif %}
+            </div>
+        </div>
+</div>
+{% endblock %}

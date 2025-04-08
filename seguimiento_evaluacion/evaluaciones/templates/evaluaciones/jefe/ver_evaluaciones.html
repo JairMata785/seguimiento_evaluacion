@@ -1,0 +1,339 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Evaluaciones de {{ docente.user.get_full_name }}</h2>
+
+    <!-- Resumen de promedios -->
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Promedio Departamental</h5>
+                    <h3 class="card-text text-center">{{ promedios.departamental|floatformat:2|default:"N/A" }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Promedio Alumnos</h5>
+                    <h3 class="card-text text-center">{{ promedios.alumnos|floatformat:2|default:"N/A" }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Promedio Autoevaluación</h5>
+                    <h3 class="card-text text-center">{{ promedios.auto|floatformat:2|default:"N/A" }}</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Evaluaciones de Alumnos -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Evaluaciones de Alumnos</h4>
+        </div>
+        <div class="card-body">
+            {% if evaluaciones_alumnos %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Dominio Asignatura</th>
+                            <th>Planificación</th>
+                            <th>Ambientes</th>
+                            <th>Estrategias</th>
+                            <th>Motivación</th>
+                            <th>Evaluación</th>
+                            <th>Comunicación</th>
+                            <th>Gestión</th>
+                            <th>TIC</th>
+                            <th>Satisfacción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for eval in evaluaciones_alumnos %}
+                        <tr>
+                            <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                            <td>{{ eval.dominio_asignatura|floatformat:2 }}</td>
+                            <td>{{ eval.planificacion_curso|floatformat:2 }}</td>
+                            <td>{{ eval.ambientes_aprendizaje|floatformat:2 }}</td>
+                            <td>{{ eval.estrategias_tecnicas|floatformat:2 }}</td>
+                            <td>{{ eval.motivacion|floatformat:2 }}</td>
+                            <td>{{ eval.evaluacion|floatformat:2 }}</td>
+                            <td>{{ eval.comunicacion|floatformat:2 }}</td>
+                            <td>{{ eval.gestion_curso|floatformat:2 }}</td>
+                            <td>{{ eval.tecnologias_informacion|floatformat:2 }}</td>
+                            <td>{{ eval.satisfaccion_general|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">No hay evaluaciones de alumnos registradas.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Evaluaciones Departamentales -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Evaluaciones Departamentales</h4>
+        </div>
+        <div class="card-body">
+            {% if evaluaciones_departamentales %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Formación Docente</th>
+                            <th>Planeación</th>
+                            <th>Estrategias</th>
+                            <th>Asesoría</th>
+                            <th>Tutoría</th>
+                            <th>Gestión</th>
+                            <th>Resultado Final</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for eval in evaluaciones_departamentales %}
+                        <tr>
+                            <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                            <td>{{ eval.formacion_docente|floatformat:2 }}</td>
+                            <td>{{ eval.planeacion_evaluacion|floatformat:2 }}</td>
+                            <td>{{ eval.estrategias_didacticas|floatformat:2 }}</td>
+                            <td>{{ eval.asesoria_estudiantes|floatformat:2 }}</td>
+                            <td>{{ eval.participacion_tutor|floatformat:2 }}</td>
+                            <td>{{ eval.gestion_tutorial|floatformat:2 }}</td>
+                            <td>{{ eval.resultado_final|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">No hay evaluaciones departamentales registradas.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Autoevaluaciones -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Autoevaluaciones</h4>
+        </div>
+        <div class="card-body">
+            {% if autoevaluaciones %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Docencia</th>
+                            <th>Tutoría</th>
+                            <th>Gestión</th>
+                            <th>Investigación</th>
+                            <th>Vinculación</th>I notice
+                            <th you haven't asked a>Resultado Global</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for eval in autoevaluaciones %}
+                        <tr>
+                            <t specific question. From the context, I can see you're working with a template that displays evaluation data and>{{ eval.fecha|date:"d/m/Y" }}</td>
+                            <td>{{ eval.docencia|floatformat:2 }}</td>
+                            <td>{{ eval.tutoria|floatformat:2 }}</td>
+                            <td>{{ eval.d charts for teachers. Would you like to:
+
+1. Fix any issues with the current charts?
+2. Add new features to the visualization?
+3.gestion|floatformat:2 }}</td>
+                            <td>{{ eval.investigacion|floatformat:2 }}</td>
+                 Modify the existing layout?
+4. Get help with a specific part of the code?
+
+Please let me know what specific assistance you need with            <td>{{ eval.vinculacion|floatformat:2 }}</td>
+                            <td>{{ eval.resultado_global|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted">No hay autoevaluaciones registradas.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Gráficas de Evaluaciones -->
+    <div class="row mt-4">
+        <!-- Gráfica de Evaluaciones de Alumnos -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Gráfica de Evaluaciones de Alumnos</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="alumnosChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica de Evaluaciones Departamentales -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Gráfica de Evaluaciones Departamentales</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="departamentalChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfica de Autoevaluaciones -->
+        <div class="col-md-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Gráfica de Autoevaluaciones</h4>
+                </div>
+                <div class="card-body">
+                    <canvas id="autoChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Gráfica de Evaluaciones de Alumnos
+    const alumnosCtx = document.getElementById('alumnosChart').getContext('2d');
+    new Chart(alumnosCtx, {
+        type: 'bar',
+        data: {
+            labels: [
+                'Dominio Asignatura',
+                'Planificación',
+                'Ambientes',
+                'Estrategias',
+                'Motivación',
+                'Evaluación',
+                'Comunicación',
+                'Gestión',
+                'TIC',
+                'Satisfacción'
+            ],
+            datasets: [{
+                label: 'Promedio por Aspecto',
+                data: [
+                    {% for eval in evaluaciones_alumnos %}
+                        {{ eval.dominio_asignatura|floatformat:2 }},
+                        {{ eval.planificacion_curso|floatformat:2 }},
+                        {{ eval.ambientes_aprendizaje|floatformat:2 }},
+                        {{ eval.estrategias_tecnicas|floatformat:2 }},
+                        {{ eval.motivacion|floatformat:2 }},
+                        {{ eval.evaluacion|floatformat:2 }},
+                        {{ eval.comunicacion|floatformat:2 }},
+                        {{ eval.gestion_curso|floatformat:2 }},
+                        {{ eval.tecnologias_informacion|floatformat:2 }},
+                        {{ eval.satisfaccion_general|floatformat:2 }}
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5
+                }
+            }
+        }
+    });
+
+    // Gráfica de Evaluaciones Departamentales
+    const departamentalCtx = document.getElementById('departamentalChart').getContext('2d');
+    new Chart(departamentalCtx, {
+        type: 'bar',
+        data: {
+            labels: [
+                'Formación Docente',
+                'Planeación',
+                'Estrategias',
+                'Asesoría',
+                'Tutoría',
+                'Gestión'
+            ],
+            datasets: [{
+                label: 'Promedio por Aspecto',
+                data: [
+                    {% for eval in evaluaciones_departamentales %}
+                        {{ eval.formacion_docente|floatformat:2 }},
+                        {{ eval.planeacion_evaluacion|floatformat:2 }},
+                        {{ eval.estrategias_didacticas|floatformat:2 }},
+                        {{ eval.asesoria_estudiantes|floatformat:2 }},
+                        {{ eval.participacion_tutor|floatformat:2 }},
+                        {{ eval.gestion_tutorial|floatformat:2 }}
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5
+                }
+            }
+        }
+    });
+
+    // Gráfica de Autoevaluaciones
+    const autoCtx = document.getElementById('autoChart').getContext('2d');
+    new Chart(autoCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Docencia', 'Tutoría', 'Gestión', 'Investigación', 'Vinculación'],
+            datasets: [{
+                label: 'Promedio por Aspecto',
+                data: [
+                    {% for eval in autoevaluaciones %}
+                        {{ eval.docencia|floatformat:2 }},
+                        {{ eval.tutoria|floatformat:2 }},
+                        {{ eval.gestion|floatformat:2 }},
+                        {{ eval.investigacion|floatformat:2 }},
+                        {{ eval.vinculacion|floatformat:2 }}
+                    {% endfor %}
+                ],
+                backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                borderColor: 'rgba(255, 159, 64, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 5
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

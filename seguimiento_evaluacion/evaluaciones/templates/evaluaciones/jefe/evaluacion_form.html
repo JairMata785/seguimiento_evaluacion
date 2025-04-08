@@ -1,0 +1,54 @@
+{% extends 'evaluaciones/base.html' %}
+
+{% block content %}
+<div class="container">
+    {% include 'evaluaciones/components/back_button.html' with back_url='lista_docentes_departamento' %}
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>Evaluación Departamental</h2>
+            <h4>Docente: {{ docente.user.get_full_name }}</h4>
+        </div>
+        <div class="card-body">
+            <form method="post" class="evaluation-form">
+                {% csrf_token %}
+                
+                <div class="mb-4">
+                    <label class="form-label">Formación Docente</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="formacion_docente" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Planeación y Evaluación</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="planeacion_evaluacion" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Estrategias Didácticas</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="estrategias_didacticas" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Asesoría a Estudiantes</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="asesoria_estudiantes" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Participación como Tutor</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="participacion_tutor" %}
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">Gestión Tutorial</label>
+                    {% include 'evaluaciones/components/rating.html' with field_name="gestion_tutorial" %}
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar Evaluación</button>
+                    <a href="{% url 'lista_docentes_departamento' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
