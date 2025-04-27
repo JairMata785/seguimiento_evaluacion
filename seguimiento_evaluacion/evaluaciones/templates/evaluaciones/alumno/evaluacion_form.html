@@ -1,82 +1,135 @@
 {% extends 'evaluaciones/base.html' %}
 
 {% block content %}
-<div class="container">
-    <div class="card">
-        <div class="card-header">
-            <h2>Evaluación del Docente</h2>
-            <h4>{{ docente.user.get_full_name }} - {{ materia.nombre }}</h4>
+<div class="container py-3">
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'lista_docentes' %}" class="text-decoration-none small">
+                    <i class="fas fa-arrow-left me-1"></i>Volver
+                </a>
+            </li>
+            <li class="breadcrumb-item active small">Evaluación Docente</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white py-2">
+            <div class="d-flex flex-column">
+                <h2 class="h6 mb-0">Evaluación del Docente</h2>
+                <small class="opacity-75">
+                    <i class="fas fa-user-tie me-1"></i>{{ docente.user.get_full_name }} 
+                    <span class="mx-1">|</span>
+                    <i class="fas fa-book me-1"></i>{{ materia.nombre }}
+                </small>
+            </div>
         </div>
-        <div class="card-body">
+        <div class="card-body p-3">
             <form method="post" class="evaluation-form">
                 {% csrf_token %}
                 
-                <div class="mb-4">
-                    <label class="form-label">A) Dominio de la asignatura</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="dominio_asignatura" %}
+                <div class="row g-2">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-brain me-1"></i>A) Dominio
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="dominio_asignatura" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-tasks me-1"></i>B) Planificación
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="planificacion_curso" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-chalkboard me-1"></i>C) Ambientes
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="ambientes_aprendizaje" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-lightbulb me-1"></i>D) Estrategias
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="estrategias_tecnicas" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-star me-1"></i>E) Motivación
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="motivacion" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-check-circle me-1"></i>F) Evaluación
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="evaluacion" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-comments me-1"></i>G) Comunicación
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="comunicacion" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-cogs me-1"></i>H) Gestión
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="gestion_curso" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-laptop me-1"></i>I) TIC
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="tecnologias_informacion" %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6">
+                        <div class="evaluation-section border rounded p-2">
+                            <label class="form-label fw-bold small mb-1">
+                                <i class="fas fa-smile me-1"></i>J) Satisfacción
+                            </label>
+                            {% include 'evaluaciones/components/rating.html' with field_name="satisfaccion_general" %}
+                        </div>
+                    </div>
                 </div>
 
-                <div class="mb-4">
-                    <label class="form-label">B) Planificación del curso</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="planificacion_curso" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">C) Ambientes de aprendizaje</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="ambientes_aprendizaje" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">D) Estrategias, métodos y técnicas</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="estrategias_tecnicas" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">E) Motivación</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="motivacion" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">F) Evaluación</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="evaluacion" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">G) Comunicación</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="comunicacion" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">H) Gestión del curso</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="gestion_curso" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">I) Tecnologías de la información y comunicación</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="tecnologias_informacion" %}
-                </div>
-
-                <div class="mb-4">
-                    <label class="form-label">J) Satisfacción general</label>
-                    {% include 'evaluaciones/components/rating.html' with field_name="satisfaccion_general" %}
-                </div>
-
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary">Enviar Evaluación</button>
-                    <a href="{% url 'lista_docentes' %}" class="btn btn-secondary">Cancelar</a>
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <a href="{% url 'lista_docentes' %}" class="btn btn-light btn-sm">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fas fa-paper-plane me-1"></i>Enviar
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<style>
-.rating-group {
-    margin: 10px 0;
-}
-.rating-label {
-    font-weight: 500;
-    margin-bottom: 5px;
-}
-</style>
 {% endblock %}

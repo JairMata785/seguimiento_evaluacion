@@ -2,48 +2,76 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Mis Docentes</h2>
-    
-    {% if docentes_data %}
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Docente</th>
-                        <th>Materia</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in docentes_data %}
-                    <tr>
-                        <td>{{ item.docente.user.get_full_name }}</td>
-                        <td>{{ item.materia.nombre }}</td>
-                        <td>
-                            {% if item.evaluado %}
-                                <span class="badge bg-success">Evaluado</span>
-                            {% else %}
-                                <span class="badge bg-warning">Pendiente</span>
-                            {% endif %}
-                        </td>
-                        <td>
-                            {% if not item.evaluado %}
-                                <a href="{% url 'evaluacion_docente' item.docente.id item.materia.id %}" 
-                                   class="btn btn-primary btn-sm">
-                                    Evaluar
-                                </a>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white py-2">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-chalkboard-teacher me-2"></i>
+                <h2 class="h5 mb-0">Mis Docentes</h2>
+            </div>
         </div>
-    {% else %}
-        <div class="alert alert-info">
-            No hay docentes disponibles para evaluar en este momento.
+        
+        <div class="card-body p-0">
+            {% if docentes_data %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="px-3">
+                                    <i class="fas fa-user me-1"></i>Docente
+                                </th>
+                                <th>
+                                    <i class="fas fa-book me-1"></i>Materia
+                                </th>
+                                <th class="text-center">
+                                    <i class="fas fa-info-circle me-1"></i>Estado
+                                </th>
+                                <th class="text-center">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in docentes_data %}
+                            <tr>
+                                <td class="px-3">
+                                    <div class="fw-medium">{{ item.docente.user.get_full_name }}</div>
+                                </td>
+                                <td>
+                                    <span class="text-muted">{{ item.materia.nombre }}</span>
+                                </td>
+                                <td class="text-center">
+                                    {% if item.evaluado %}
+                                        <span class="badge bg-success-subtle text-success">
+                                            <i class="fas fa-check-circle me-1"></i>Evaluado
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-warning-subtle text-warning">
+                                            <i class="fas fa-clock me-1"></i>Pendiente
+                                        </span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {% if not item.evaluado %}
+                                        <a href="{% url 'evaluacion_docente' item.docente.id item.materia.id %}" 
+                                           class="btn btn-primary btn-sm">
+                                            <i class="fas fa-clipboard-check me-1"></i>Evaluar
+                                        </a>
+                                    {% else %}
+                                        <button class="btn btn-light btn-sm" disabled>
+                                            <i class="fas fa-check me-1"></i>Completado
+                                        </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                    <p class="text-muted mb-0">No hay docentes disponibles para evaluar en este momento.</p>
+                </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}

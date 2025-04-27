@@ -2,191 +2,128 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>Evaluaciones de {{ docente.user.get_full_name }}</h2>
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="javascript:history.back()" class="text-decoration-none">
+                <i class="fas fa-arrow-left me-1"></i>Volver
+            </a></li>
+            <li class="breadcrumb-item active">Evaluaciones del Docente</li>
+        </ol>
+    </nav>
 
-    <!-- Resumen de promedios -->
-    <div class="row mb-4">
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Promedio Departamental</h5>
-                    <h3 class="card-text text-center">{{ promedios.departamental|floatformat:2|default:"N/A" }}</h3>
-                </div>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white py-2">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-user-tie me-2"></i>
+                <h2 class="h5 mb-0">{{ docente.user.get_full_name }}</h2>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Promedio Alumnos</h5>
-                    <h3 class="card-text text-center">{{ promedios.alumnos|floatformat:2|default:"N/A" }}</h3>
+        <div class="card-body p-3">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted mb-2">Promedio Departamental</h6>
+                            <h3 class="mb-0 text-primary">{{ promedios.departamental|floatformat:2|default:"N/A" }}</h3>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Promedio Autoevaluación</h5>
-                    <h3 class="card-text text-center">{{ promedios.auto|floatformat:2|default:"N/A" }}</h3>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted mb-2">Promedio Alumnos</h6>
+                            <h3 class="mb-0 text-success">{{ promedios.alumnos|floatformat:2|default:"N/A" }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center">
+                            <h6 class="text-muted mb-2">Promedio Autoevaluación</h6>
+                            <h3 class="mb-0 text-info">{{ promedios.auto|floatformat:2|default:"N/A" }}</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Evaluaciones de Alumnos -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Evaluaciones de Alumnos</h4>
-        </div>
-        <div class="card-body">
-            {% if evaluaciones_alumnos %}
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Dominio Asignatura</th>
-                            <th>Planificación</th>
-                            <th>Ambientes</th>
-                            <th>Estrategias</th>
-                            <th>Motivación</th>
-                            <th>Evaluación</th>
-                            <th>Comunicación</th>
-                            <th>Gestión</th>
-                            <th>TIC</th>
-                            <th>Satisfacción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for eval in evaluaciones_alumnos %}
-                        <tr>
-                            <td>{{ eval.fecha|date:"d/m/Y" }}</td>
-                            <td>{{ eval.dominio_asignatura|floatformat:2 }}</td>
-                            <td>{{ eval.planificacion_curso|floatformat:2 }}</td>
-                            <td>{{ eval.ambientes_aprendizaje|floatformat:2 }}</td>
-                            <td>{{ eval.estrategias_tecnicas|floatformat:2 }}</td>
-                            <td>{{ eval.motivacion|floatformat:2 }}</td>
-                            <td>{{ eval.evaluacion|floatformat:2 }}</td>
-                            <td>{{ eval.comunicacion|floatformat:2 }}</td>
-                            <td>{{ eval.gestion_curso|floatformat:2 }}</td>
-                            <td>{{ eval.tecnologias_informacion|floatformat:2 }}</td>
-                            <td>{{ eval.satisfaccion_general|floatformat:2 }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-            <p class="text-muted">No hay evaluaciones de alumnos registradas.</p>
-            {% endif %}
-        </div>
-    </div>
+    <ul class="nav nav-tabs mb-4" id="evaluationTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#alumnos">
+                <i class="fas fa-users me-1"></i>Evaluaciones de Alumnos
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#departamental">
+                <i class="fas fa-building me-1"></i>Evaluaciones Departamentales
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" data-bs-toggle="tab" data-bs-target="#auto">
+                <i class="fas fa-user-check me-1"></i>Autoevaluaciones
+            </button>
+        </li>
+    </ul>
 
-    <!-- Evaluaciones Departamentales -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Evaluaciones Departamentales</h4>
-        </div>
-        <div class="card-body">
-            {% if evaluaciones_departamentales %}
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Formación Docente</th>
-                            <th>Planeación</th>
-                            <th>Estrategias</th>
-                            <th>Asesoría</th>
-                            <th>Tutoría</th>
-                            <th>Gestión</th>
-                            <th>Resultado Final</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for eval in evaluaciones_departamentales %}
-                        <tr>
-                            <td>{{ eval.fecha|date:"d/m/Y" }}</td>
-                            <td>{{ eval.formacion_docente|floatformat:2 }}</td>
-                            <td>{{ eval.planeacion_evaluacion|floatformat:2 }}</td>
-                            <td>{{ eval.estrategias_didacticas|floatformat:2 }}</td>
-                            <td>{{ eval.asesoria_estudiantes|floatformat:2 }}</td>
-                            <td>{{ eval.participacion_tutor|floatformat:2 }}</td>
-                            <td>{{ eval.gestion_tutorial|floatformat:2 }}</td>
-                            <td>{{ eval.resultado_final|floatformat:2 }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-            <p class="text-muted">No hay evaluaciones departamentales registradas.</p>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Autoevaluaciones -->
-    <div class="card mb-4">
-        <div class="card-header">
-            <h4>Autoevaluaciones</h4>
-        </div>
-        <div class="card-body">
-            {% if autoevaluaciones %}
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Fecha</th>
-                            <th>Docencia</th>
-                            <th>Tutoría</th>
-                            <th>Gestión</th>
-                            <th>Investigación</th>
-                            <th>Vinculación</th>I notice
-                            <th you haven't asked a>Resultado Global</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for eval in autoevaluaciones %}
-                        <tr>
-                            <t specific question. From the context, I can see you're working with a template that displays evaluation data and>{{ eval.fecha|date:"d/m/Y" }}</td>
-                            <td>{{ eval.docencia|floatformat:2 }}</td>
-                            <td>{{ eval.tutoria|floatformat:2 }}</td>
-                            <td>{{ eval.d charts for teachers. Would you like to:
-
-1. Fix any issues with the current charts?
-2. Add new features to the visualization?
-3.gestion|floatformat:2 }}</td>
-                            <td>{{ eval.investigacion|floatformat:2 }}</td>
-                 Modify the existing layout?
-4. Get help with a specific part of the code?
-
-Please let me know what specific assistance you need with            <td>{{ eval.vinculacion|floatformat:2 }}</td>
-                            <td>{{ eval.resultado_global|floatformat:2 }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-            {% else %}
-            <p class="text-muted">No hay autoevaluaciones registradas.</p>
-            {% endif %}
-        </div>
-    </div>
-
-    <!-- Gráficas de Evaluaciones -->
-    <div class="row mt-4">
-        <!-- Gráfica de Evaluaciones de Alumnos -->
-        <div class="col-md-12 mb-4">
-            <div class="card">
-                <div class="card-header">
-                    <h4>Gráfica de Evaluaciones de Alumnos</h4>
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="alumnos">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body p-0">
+                    {% if evaluaciones_alumnos %}
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="border-0">Fecha</th>
+                                    <th class="border-0">Dominio</th>
+                                    <th class="border-0">Plan.</th>
+                                    <th class="border-0">Amb.</th>
+                                    <th class="border-0">Estr.</th>
+                                    <th class="border-0">Mot.</th>
+                                    <th class="border-0">Eval.</th>
+                                    <th class="border-0">Com.</th>
+                                    <th class="border-0">Gest.</th>
+                                    <th class="border-0">TIC</th>
+                                    <th class="border-0">Sat.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for eval in evaluaciones_alumnos %}
+                                <tr>
+                                    <td>{{ eval.fecha|date:"d/m/Y" }}</td>
+                                    <td>{{ eval.dominio_asignatura|floatformat:1 }}</td>
+                                    <td>{{ eval.planificacion_curso|floatformat:1 }}</td>
+                                    <td>{{ eval.ambientes_aprendizaje|floatformat:1 }}</td>
+                                    <td>{{ eval.estrategias_tecnicas|floatformat:1 }}</td>
+                                    <td>{{ eval.motivacion|floatformat:1 }}</td>
+                                    <td>{{ eval.evaluacion|floatformat:1 }}</td>
+                                    <td>{{ eval.comunicacion|floatformat:1 }}</td>
+                                    <td>{{ eval.gestion_curso|floatformat:1 }}</td>
+                                    <td>{{ eval.tecnologias_informacion|floatformat:1 }}</td>
+                                    <td>{{ eval.satisfaccion_general|floatformat:1 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="text-center py-4">
+                        <i class="fas fa-clipboard-list fa-2x text-muted mb-2"></i>
+                        <p class="text-muted mb-0">No hay evaluaciones de alumnos registradas.</p>
+                    </div>
+                    {% endif %}
                 </div>
+            </div>
+
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <canvas id="alumnosChart" height="100"></canvas>
                 </div>
             </div>
         </div>
 
-        <!-- Gráfica de Evaluaciones Departamentales -->
+        <!-- Similar structure for departamental and auto tabs -->
         <div class="col-md-12 mb-4">
             <div class="card">
                 <div class="card-header">
@@ -198,7 +135,6 @@ Please let me know what specific assistance you need with            <td>{{ eval
             </div>
         </div>
 
-        <!-- Gráfica de Autoevaluaciones -->
         <div class="col-md-12 mb-4">
             <div class="card">
                 <div class="card-header">
@@ -215,13 +151,32 @@ Please let me know what specific assistance you need with            <td>{{ eval
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'top',
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                max: 5,
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    };
+
     // Gráfica de Evaluaciones de Alumnos
     const alumnosCtx = document.getElementById('alumnosChart').getContext('2d');
     new Chart(alumnosCtx, {
         type: 'bar',
         data: {
             labels: [
-                'Dominio Asignatura',
+                'Dominio',
                 'Planificación',
                 'Ambientes',
                 'Estrategias',
@@ -250,17 +205,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 ],
                 backgroundColor: 'rgba(54, 162, 235, 0.5)',
                 borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
+                borderWidth: 1,
+                borderRadius: 4
             }]
         },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 5
-                }
-            }
-        }
+        options: chartOptions
     });
 
     // Gráfica de Evaluaciones Departamentales

@@ -1,125 +1,212 @@
-/* General styles */
+/* Variables globales */
+:root {
+    --primary-color: #0d6efd;
+    --primary-hover: #0b5ed7;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --bg-light: #f8f9fa;
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --transition-default: all 0.3s ease;
+}
+
+/* Estilos generales */
 body {
-    background-color: #f8f9fa;
+    background-color: var(--bg-light);
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    color: #333;
 }
 
 .main-container {
     padding: 2rem 1rem;
     margin-top: 2rem;
+    min-height: calc(100vh - 300px);
 }
 
-/* Card styles */
+/* Estilos de tarjetas mejorados */
 .card {
     border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
+    border-radius: 12px;
+    box-shadow: var(--shadow-md);
+    transition: var(--transition-default);
+    background: #ffffff;
+    overflow: hidden;
 }
 
 .card:hover {
     transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
 }
 
 .card-header {
-    background-color: #fff;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    padding: 1.25rem;
+    background-color: #ffffff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 1.5rem;
 }
 
-/* Button styles */
+.card-body {
+    padding: 1.5rem;
+}
+
+/* Estilos de botones mejorados */
 .btn {
-    border-radius: 5px;
-    padding: 0.5rem 1.5rem;
+    border-radius: 8px;
+    padding: 0.625rem 1.5rem;
     font-weight: 500;
-    transition: all 0.3s;
+    transition: var(--transition-default);
+    text-transform: none;
+    letter-spacing: 0.3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
 }
 
 .btn-primary {
-    background-color: #0d6efd;
+    background-color: var(--primary-color);
     border: none;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
-    background-color: #0b5ed7;
+    background-color: var(--primary-hover);
     transform: translateY(-2px);
-}
-
-/* Form styles */
-.form-control {
-    border-radius: 5px;
-    padding: 0.75rem;
-    border: 1px solid #ced4da;
-}
-
-.form-control:focus {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
-}
-
-/* Table styles */
-.table {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-}
-
-.table thead th {
-    background: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
-    color: #495057;
-    font-weight: 600;
-}
-
-.table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-/* Navigation */
-.navbar {
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
-    background-color: white;
-}
-
-.navbar-brand {
-    font-weight: 600;
-    color: #0d6efd;
-}
-
-/* Rating component styles */
-.rating-group {
-    margin: 1rem 0;
-}
-
-.btn-group .btn {
-    padding: 0.5rem 1rem;
-}
-
-/* Footer */
-footer {
-    background-color: white !important;
-    box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem 0;
-    margin-top: 3rem;
+    box-shadow: var(--shadow-md);
 }
 
 .btn-secondary {
-    background-color: #6c757d;
+    background-color: var(--secondary-color);
     border: none;
-    transition: all 0.3s;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary:hover {
     background-color: #5a6268;
     transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
-/* Back button specific styles */
-.btn-secondary i {
-    transition: transform 0.3s;
+/* Estilos de formularios mejorados */
+.form-control {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid #dee2e6;
+    transition: var(--transition-default);
+    font-size: 1rem;
 }
 
-.btn-secondary:hover i {
-    transform: translateX(-3px);
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,0.15);
+}
+
+/* Estilos de tabla mejorados */
+.table {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+}
+
+.table thead th {
+    background: #f8f9fa;
+    border-bottom: 2px solid #e9ecef;
+    color: #495057;
+    font-weight: 600;
+    padding: 1rem;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+.table tbody tr {
+    transition: var(--transition-default);
+}
+
+.table tbody tr:hover {
+    background-color: rgba(13,110,253,0.05);
+}
+
+/* Navegación mejorada */
+.navbar {
+    box-shadow: var(--shadow-md);
+    background-color: white;
+    padding: 1rem 0;
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: white;
+    font-size: 1.25rem;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: var(--transition-default);
+}
+
+.nav-link:hover {
+    color: var(--primary-color);
+}
+
+/* Componente de calificación mejorado */
+.rating-group {
+    margin: 1.5rem 0;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.rating-group .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+}
+
+/* Footer mejorado */
+footer {
+    background-color: white !important;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.05);
+    padding: 2rem 0;
+    margin-top: 4rem;
+}
+
+/* Animaciones y efectos */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Utilidades adicionales */
+.shadow-hover {
+    transition: var(--transition-default);
+}
+
+.shadow-hover:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-container {
+        padding: 1rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+
+    .table {
+        display: block;
+        overflow-x: auto;
+    }
 }

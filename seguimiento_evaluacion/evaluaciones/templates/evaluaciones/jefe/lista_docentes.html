@@ -1,41 +1,53 @@
 {% extends 'evaluaciones/base.html' %}
 
 {% block content %}
-<div class="card">
-    <div class="card-header">
-        <h2>Evaluación Departamental de Docentes</h2>
+<div class="card shadow-sm">
+    <div class="card-header bg-primary text-white py-3">
+        <h2 class="mb-0 h4">
+            <i class="fas fa-chalkboard-teacher me-2"></i>
+            Evaluación Departamental de Docentes
+        </h2>
     </div>
-    <div class="card-body">
+    <div class="card-body p-4">
         <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
                     <tr>
-                        <th>Número de Empleado</th>
-                        <th>Nombre del Docente</th>
-                        <th>Carrera</th>
-                        <th>Acciones</th>
+                        <th class="fw-semibold">Número de Empleado</th>
+                        <th class="fw-semibold">Nombre del Docente</th>
+                        <th class="fw-semibold">Carrera</th>
+                        <th class="fw-semibold text-center">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for docente in docentes %}
                     <tr>
-                        <td>{{ docente.numero_empleado }}</td>
+                        <td class="fw-medium">{{ docente.numero_empleado }}</td>
                         <td>{{ docente.user.get_full_name }}</td>
-                        <td>{{ docente.carrera.nombre }}</td>
                         <td>
+                            <span class="badge bg-info text-dark">
+                                {{ docente.carrera.nombre }}
+                            </span>
+                        </td>
+                        <td class="text-center">
                             <a href="{% url 'evaluacion_departamental' docente.id %}" 
                                class="btn btn-primary btn-sm me-2">
+                                <i class="fas fa-clipboard-check me-1"></i>
                                 Evaluar
                             </a>
                             <a href="{% url 'ver_evaluaciones_docente' docente.id %}" 
                                class="btn btn-info btn-sm">
+                                <i class="fas fa-eye me-1"></i>
                                 Ver Evaluaciones
                             </a>
                         </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" class="text-center">No hay docentes disponibles para evaluar</td>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            <i class="fas fa-inbox fa-2x mb-3 d-block"></i>
+                            No hay docentes disponibles para evaluar
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
