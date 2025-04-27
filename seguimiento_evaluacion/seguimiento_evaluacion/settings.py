@@ -76,8 +76,12 @@ WSGI_APPLICATION = 'seguimiento_evaluacion.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'seguimiento_db',
+        'USER': 'seguimiento_user',
+        'PASSWORD': 'seguimiento_password',  # Set a proper password
+        'HOST': 'db',
+        'PORT': '3306',
     }
 }
 
