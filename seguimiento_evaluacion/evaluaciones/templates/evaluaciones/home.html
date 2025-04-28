@@ -1,11 +1,23 @@
 {% extends 'evaluaciones/base.html' %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-12 mb-4">
             <h2 class="text-center mb-4">Sistema de Evaluación Docente</h2>
+            <h3 class="text-center text-muted mb-4">Instituto Tecnológico de Ciudad Victoria</h3>
             
+            <!-- Barra de Periodos -->
+            <div class="mb-4 text-center">
+                <div class="btn-group">
+                    {% for periodo in periodos %}
+                    <button class="btn btn-outline-secondary btn-sm">
+                        {{ periodo.nombre }}
+                    </button>
+                    {% endfor %}
+                </div>
+            </div>
+
             <!-- Tarjetas de Resumen -->
             <div class="row mb-4">
                 <div class="col-md-4">
@@ -37,29 +49,97 @@
                 </div>
             </div>
 
+            <!-- Información del Departamento -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Datos del Departamento</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Nombre:</h5>
+                            <p class="lead">{{ departamento.nombre|default:"Departamento de Sistemas y Computación" }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="progress-info">
+                                <h6>Avance de la Evaluación Departamental</h6>
+                                <div class="progress">
+                                    <div class="progress-bar bg-info progress-bar-animated progress-bar-striped" 
+                                         role="progressbar" 
+                                         style="width: 0%" 
+                                         data-value="{{ departamento.avance_departamental|default:75 }}" 
+                                         aria-valuenow="{{ departamento.avance_departamental|default:75 }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <span class="progress-text">{{ departamento.avance_departamental|default:75 }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="progress-info">
+                                <h6>Avance de la Autoevaluación</h6>
+                                <div class="progress">
+                                    <div class="progress-bar bg-success progress-bar-animated progress-bar-striped" 
+                                         role="progressbar" 
+                                         style="width: 0%" 
+                                         data-value="{{ departamento.avance_autoevaluacion|default:60 }}" 
+                                         aria-valuenow="{{ departamento.avance_autoevaluacion|default:60 }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        <span class="progress-text">{{ departamento.avance_autoevaluacion|default:60 }}%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Lista de Docentes y sus Evaluaciones -->
             <div class="card shadow-sm">
                 <div class="card-header bg-light">
-                    <h4 class="mb-0">Evaluaciones por Docente</h4>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 class="mb-0">Evaluaciones por Docente</h4>
+                        <div class="d-flex gap-2">
+                            <input type="text" id="searchInput" class="form-control form-control-sm" placeholder="Buscar...">
+                            <select id="filterCarrera" class="form-select form-select-sm">
+                                <option value="">Todas las Carreras</option>
+                                <option value="informatica">Informática</option>
+                                <option value="sistemas">Sistemas</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover">
+                        <table class="table table-hover" id="docentesTable">
                             <thead>
                                 <tr>
-                                    <th>Docente</th>
-                                    <th>Evaluación Alumnos</th>
-                                    <th>Evaluación Departamental</th>
-                                    <th>Autoevaluación</th>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>RFC</th>
+                                    <th>Clave</th>
+                                    <th>Gráficas</th>
+                                    <th>Estado</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for docente in docentes %}
                                 <tr>
+                                    <td>{{ forloop.counter }}</td>
                                     <td>{{ docente.user.get_full_name }}</td>
-                                    <td>{{ docente.evaluacionalumno_set.all|length }}</td>
-                                    <td>{{ docente.evaluaciondepartamental_set.all|length }}</td>
-                                    <td>{{ docente.autoevaluacion_set.all|length }}</td>
+                                    <td>{{ docente.rfc }}</td>
+                                    <td>{{ docente.numero_empleado }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button class="btn btn-sm btn-primary">NOV2024</button>
+                                            <button class="btn btn-sm btn-success">MAY2024</button>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success">Evaluación Enviada</span>
+                                    </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -70,4 +150,98 @@
         </div>
     </div>
 </div>
+
+{% block extra_css %}
+<style>
+    .btn-group .btn {
+        margin: 0 2px;
+        font-size: 0.8rem;
+    }
+    .progress {
+        height: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        transition: width 1.5s ease-in-out;
+    }
+    
+    .progress-text {
+        position: absolute;
+        width: 100%;
+        text-align: center;
+        line-height: 20px;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('searchInput');
+    const filterCarrera = document.getElementById('filterCarrera');
+    const table = document.getElementById('docentesTable');
+    const rows = table.getElementsByTagName('tr');
+
+    function filterTable() {
+        const searchText = searchInput.value.toLowerCase();
+        const carreraFilter = filterCarrera.value.toLowerCase();
+
+        for (let i = 1; i < rows.length; i++) {
+            const row = rows[i];
+            const nombre = row.cells[1].textContent.toLowerCase();
+            const rfc = row.cells[2].textContent.toLowerCase();
+            const clave = row.cells[3].textContent.toLowerCase();
+            
+            const matchesSearch = nombre.includes(searchText) || 
+                                rfc.includes(searchText) || 
+                                clave.includes(searchText);
+            
+            const matchesCarrera = !carreraFilter || 
+                                 row.getAttribute('data-carrera') === carreraFilter;
+
+            row.style.display = (matchesSearch && matchesCarrera) ? '' : 'none';
+        }
+    }
+
+    searchInput.addEventListener('keyup', filterTable);
+    filterCarrera.addEventListener('change', filterTable);
+});
+
+// Animación mejorada de las barras de progreso
+document.addEventListener('DOMContentLoaded', function() {
+    const progressBars = document.querySelectorAll('.progress-bar');
+    
+    function animateProgress(bar) {
+        const targetValue = parseInt(bar.getAttribute('data-value')) || 0;
+        let currentValue = 0;
+        const duration = 1500; // 1.5 segundos
+        const steps = 60;
+        const increment = targetValue / steps;
+        const stepDuration = duration / steps;
+
+        const animation = setInterval(() => {
+            if (currentValue >= targetValue) {
+                clearInterval(animation);
+                currentValue = targetValue;
+            } else {
+                currentValue += increment;
+            }
+            
+            const progress = Math.min(Math.round(currentValue), targetValue);
+            bar.style.width = `${progress}%`;
+            bar.querySelector('.progress-text').textContent = `${progress}%`;
+        }, stepDuration);
+    }
+
+    // Iniciar animación después de un pequeño retraso
+    setTimeout(() => {
+        progressBars.forEach(animateProgress);
+    }, 300);
+});
+</script>
+{% endblock %}
 {% endblock %}

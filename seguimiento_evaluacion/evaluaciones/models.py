@@ -31,6 +31,7 @@ class Carrera(models.Model):
 class Docente(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
     numero_empleado = models.CharField(max_length=10)
+    rfc = models.CharField(max_length=13)  # Añadiendo el campo RFC
     carrera = models.ForeignKey(Carrera, on_delete=models.CASCADE)
     
     def __str__(self):
