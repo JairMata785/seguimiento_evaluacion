@@ -1,15 +1,24 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.db.models import Avg
+from ..models import EvaluacionAlumno, EvaluacionDepartamental, AutoEvaluacion, Docente
 
-@login_required
 def home(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
+    docentes = Docente.objects.all()
+    evaluaciones = {
+        'alumnos': EvaluacionAlumno.objects.all(),
+        'departamentales': EvaluacionDepartamental.objects.all(),
+        'autoevaluaciones': AutoEvaluacion.objects.all()
+    }
     
-    if request.user.is_student:
-        return redirect('lista_docentes')
-    elif request.user.is_teacher:
-        return redirect('dashboard_docente')
-    elif request.user.is_department_head:
-        return redirect('lista_docentes_departamento')
-    return render(request, 'evaluaciones/home.html')
+    # Calcular promedios generales
+    promedios = {
+        'alumnos': evaluaciones['alumnos'].aggregate(Avg('satisfaccion_general'))['satisfaccion_general__avg'],
+        'departamentales': evaluaciones['departamentales'].aggregate(Avg('resultado_final'))['resultado_final__avg'],
+        'auto': evaluaciones['autoevaluaciones'].aggregate(Avg('resultado_global'))['resultado_global__avg']
+    }
+    
+    return render(request, 'evaluaciones/home.html', {
+        'docentes': docentes,
+        'evaluaciones': evaluaciones,
+        'promedios': promedios
+    })

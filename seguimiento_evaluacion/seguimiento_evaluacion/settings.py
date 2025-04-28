@@ -152,7 +152,7 @@ AUTH_USER_MODEL = 'evaluaciones.CustomUser'
 LOGIN_URL = 'login'
 # Configuraciones adicionales
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'home'  # or any other URL name where you want to redirect after logout
 
 # Configuración de mensajes
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
