@@ -4,51 +4,250 @@
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-12 mb-4">
-            <h2 class="text-center mb-4">Detalle del Docente</h2>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="mb-0">Detalle del Docente</h2>
+                <span class="badge bg-primary">{{ docente.carrera.nombre|default:"Carrera no especificada" }}</span>
+            </div>
             
-            <div class="card shadow-sm">
+            <!-- Información Básica del Docente -->
+            <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light">
-                    <h4 class="mb-0">Información del Docente</h4>
+                    <h4 class="mb-0"><i class="fas fa-user-tie me-2"></i>Información del Docente</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5>Nombre:</h5>
-                            <p class="lead">{{ docente.user.get_full_name }}</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h5 class="text-muted mb-2">Nombre completo</h5>
+                                <p class="lead">{{ docente.user.get_full_name }}</p>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <h5>RFC:</h5>
-                            <p class="lead">{{ docente.rfc }}</p>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h5 class="text-muted mb-2">RFC</h5>
+                                <p class="lead">{{ docente.rfc }}</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <h5 class="text-muted mb-2">Número de empleado</h5>
+                                <p class="lead">{{ docente.numero_empleado|default:"No especificado" }}</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
 
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5>Materias que imparte:</h5>
-                            <ul class="list-group">
+            <!-- Materias y Alumnos -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="fas fa-book me-2"></i>Materias que imparte</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
                                 {% for materia in materias %}
-                                <li class="list-group-item">{{ materia.nombre }} ({{ materia.grupo }})</li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ materia.nombre }}
+                                    <span class="badge bg-secondary">{{ materia.grupo }}</span>
+                                </li>
                                 {% endfor %}
                             </ul>
                         </div>
-                        <div class="col-md-6">
-                            <h5>Alumnos en sus clases:</h5>
-                            <ul class="list-group">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header bg-light">
+                            <h5 class="mb-0"><i class="fas fa-users me-2"></i>Alumnos en sus clases</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
                                 {% for alumno in alumnos %}
                                 <li class="list-group-item">{{ alumno.user.get_full_name }}</li>
                                 {% endfor %}
                             </ul>
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <!-- Periodo Académico -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Periodo Académico</h4>
+                </div>
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <h5>Periodo Actual:</h5>
+                            <h5 class="text-muted mb-2">Periodo actual</h5>
                             <p class="lead">{{ periodo.nombre }}</p>
                         </div>
                         <div class="col-md-6">
-                            <h5>Semestre:</h5>
+                            <h5 class="text-muted mb-2">Semestre</h5>
                             <p class="lead">{{ semestre }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Evaluaciones -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0"><i class="fas fa-chart-line me-2"></i>Resultados de Evaluación</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Evaluación Departamental -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">Evaluación Departamental</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-semibold">Docencia</td>
+                                            <td class="text-end">4.80/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Tutoría</td>
+                                            <td class="text-end">4.65/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Investigación</td>
+                                            <td class="text-end">4.50/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Vinculación</td>
+                                            <td class="text-end">4.30/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Gestión</td>
+                                            <td class="text-end">4.75/5.00</td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td class="fw-bold">Resultado final</td>
+                                            <td class="text-end fw-bold">4.60/5.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Autoevaluación -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">Autoevaluación</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-semibold">Docencia</td>
+                                            <td class="text-end">4.90/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Tutoría</td>
+                                            <td class="text-end">4.70/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Investigación</td>
+                                            <td class="text-end">4.60/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Vinculación</td>
+                                            <td class="text-end">4.40/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Gestión</td>
+                                            <td class="text-end">4.80/5.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evaluación por Alumnos -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="mb-0">Evaluación por Alumnos</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <tbody>
+                                        <tr>
+                                            <td class="fw-semibold">Dominio de asignatura</td>
+                                            <td class="text-end">4.75/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Planificación del curso</td>
+                                            <td class="text-end">4.50/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Ambientes de aprendizaje</td>
+                                            <td class="text-end">4.60/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Estrategias, métodos y técnicas</td>
+                                            <td class="text-end">4.80/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Motivación</td>
+                                            <td class="text-end">4.65/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Evaluación</td>
+                                            <td class="text-end">4.70/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Comunicación</td>
+                                            <td class="text-end">4.85/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Gestión del curso</td>
+                                            <td class="text-end">4.55/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Tecnologías de información</td>
+                                            <td class="text-end">4.90/5.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="fw-semibold">Satisfacción general</td>
+                                            <td class="text-end">4.75/5.00</td>
+                                        </tr>
+                                        <tr class="table-primary">
+                                            <td class="fw-bold">Promedio general</td>
+                                            <td class="text-end fw-bold">4.70/5.00</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resumen Final -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Resumen General</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="progress mb-3" style="height: 30px;">
+                                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" 
+                                     role="progressbar" 
+                                     style="width: 87.5%"
+                                     aria-valuenow="87.5" 
+                                     aria-valuemin="0" 
+                                     aria-valuemax="100">
+                                    <span class="fs-5 fw-bold">87.5%</span>
+                                </div>
+                            </div>
+                            <p class="text-center text-muted mb-0">Promedio ponderado de todas las evaluaciones</p>
                         </div>
                     </div>
                 </div>
