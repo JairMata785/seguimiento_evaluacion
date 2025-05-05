@@ -43,6 +43,13 @@ class Materia(models.Model):
     docente = models.ForeignKey(Docente, on_delete=models.CASCADE)
     grupo = models.CharField(max_length=10)
 
+class Periodo(models.Model):
+    nombre = models.CharField(max_length=50)
+    activo = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.nombre
+
 class EvaluacionAlumno(models.Model):
     estudiante = models.ForeignKey('Estudiante', on_delete=models.CASCADE, null=True)
     docente = models.ForeignKey('Docente', on_delete=models.CASCADE)
