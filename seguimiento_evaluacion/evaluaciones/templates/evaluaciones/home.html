@@ -22,11 +22,13 @@
             <div class="row mb-4">
                 <div class="col-md-4">
                     <div class="card bg-primary text-white">
-                        <div class="card-body">
-                            <h5 class="card-title">Evaluación por Alumnos</h5>
-                            <h3>{{ promedios.alumnos|default:"N/A"|floatformat:2 }}</h3>
-                            <p>Promedio General</p>
-                        </div>
+                        <a href="{% url 'lista_docentes' %}" class="text-white text-decoration-none">
+                            <div class="card-body">
+                                <h5 class="card-title">Evaluación por Alumnos</h5>
+                                <h3>{{ promedios.alumnos|default:"N/A"|floatformat:2 }}</h3>
+                                <p>Promedio General</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-4">
