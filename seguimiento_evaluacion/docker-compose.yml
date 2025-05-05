@@ -5,18 +5,18 @@ services:
     build: .
     command: >
       sh -c "
-        while ! nc -z db 3306;
+        while ! nc -z db 3307;
         do
           echo 'Waiting for MySQL to be ready...';
           sleep 2;
         done;
         python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8000
+        python manage.py runserver 0.0.0.0:8010
       "
     volumes:
       - .:/app
     ports:
-      - "8000:8000"
+      - "8010:8010"  # Cambiado de 8000 a 8010
     depends_on:
       db:
         condition: service_healthy
@@ -26,7 +26,7 @@ services:
       - DJANGO_DB_HOST=db
       - DJANGO_DB_NAME=seguimiento_db
       - DJANGO_DB_USER=seguimiento_user
-      - DJANGO_DB_PASSWORD=seguimiento_password  # Updated password
+      - DJANGO_DB_PASSWORD=seguimiento_password
 
   db:
     image: mysql:8.0
@@ -37,10 +37,10 @@ services:
       - MYSQL_DATABASE=seguimiento_db
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_USER=seguimiento_user
-      - MYSQL_PASSWORD=seguimiento_password  # Updated password
-      - MYSQL_ROOT_PASSWORD=root_password    # Added root password for security
+      - MYSQL_PASSWORD=seguimiento_password
+      - MYSQL_ROOT_PASSWORD=root_password
     ports:
-      - "3306:3306"
+      - "3307:3306"  # Cambiado de 3306:3306 a 3307:3306
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -50,11 +50,11 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8080:80"
+      - "8082:80"  # Cambiado de 8080:80 a 8082:80
     environment:
       - PMA_HOST=db
       - PMA_USER=seguimiento_user
-      - PMA_PASSWORD=seguimiento_password  # Updated password
+      - PMA_PASSWORD=seguimiento_password
     depends_on:
       - db
 
