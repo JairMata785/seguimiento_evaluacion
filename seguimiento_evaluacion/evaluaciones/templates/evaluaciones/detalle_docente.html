@@ -9,6 +9,29 @@
                 <span class="badge bg-primary">{{ docente.carrera.nombre|default:"Carrera no especificada" }}</span>
             </div>
             
+            <!-- GRÁFICAS DE EVALUACIÓN (PRIMER VISTAMIENTO) -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(90deg, #4e73df 0%, #36b9cc 100%);">
+                    <h4 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Resumen Visual de Evaluaciones</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4 d-flex flex-column align-items-center">
+                            <h5 class="text-center text-primary">Departamental</h5>
+                            <canvas id="graficaDepartamental" width="320" height="220"></canvas>
+                        </div>
+                        <div class="col-md-4 d-flex flex-column align-items-center">
+                            <h5 class="text-center text-info">Autoevaluación</h5>
+                            <canvas id="graficaAuto" width="320" height="220"></canvas>
+                        </div>
+                        <div class="col-md-4 d-flex flex-column align-items-center">
+                            <h5 class="text-center text-secondary">Alumnos</h5>
+                            <canvas id="graficaAlumno" width="320" height="220"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <!-- Información Básica del Docente -->
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-light">
@@ -250,9 +273,87 @@
                             <p class="text-center text-muted mb-0">Promedio ponderado de todas las evaluaciones</p>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Gráfica Departamental
+    new Chart(document.getElementById('graficaDepartamental').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Docencia', 'Tutoría', 'Investigación', 'Vinculación', 'Gestión'],
+            datasets: [{
+                label: 'Puntaje',
+                data: [4.80, 4.65, 4.50, 4.30, 4.75],
+                backgroundColor: '#1cc88a'
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 5 } }
+        }
+    });
+
+    // Gráfica Autoevaluación
+    new Chart(document.getElementById('graficaAuto').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Docencia', 'Tutoría', 'Investigación', 'Vinculación', 'Gestión'],
+            datasets: [{
+                label: 'Puntaje',
+                data: [4.90, 4.70, 4.60, 4.40, 4.80],
+                backgroundColor: '#36b9cc'
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 5 } }
+        }
+    });
+
+    // Gráfica Evaluación por Alumnos
+    new Chart(document.getElementById('graficaAlumno').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: [
+                'Dominio', 'Planificación', 'Ambientes', 'Estrategias', 'Motivación',
+                'Evaluación', 'Comunicación', 'Gestión', 'TI', 'Satisfacción'
+            ],
+            datasets: [{
+                label: 'Puntaje',
+                data: [4.75, 4.50, 4.60, 4.80, 4.65, 4.70, 4.85, 4.55, 4.90, 4.75],
+                backgroundColor: '#4e73df'
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, max: 5 } }
+        }
+    });
+</script>
+<script>
+    function exportarPDF() {
+        // Selecciona el contenido que quieres exportar (puedes ajustar el selector si quieres solo una parte)
+        var element = document.querySelector('.container-fluid');
+        var opt = {
+            margin:       0.2,
+            filename:     'detalle_docente.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+</script>
+<button class="btn btn-danger mb-3 d-print-none" onclick="exportarPDF()">
+    <i class="fas fa-file-pdf me-2"></i>Exportar a PDF
+</button>
 {% endblock %}
