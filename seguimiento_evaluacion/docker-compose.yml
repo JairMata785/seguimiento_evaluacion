@@ -40,7 +40,7 @@ services:
       - MYSQL_PASSWORD=seguimiento_password  # Updated password
       - MYSQL_ROOT_PASSWORD=root_password    # Added root password for security
     ports:
-      - "3306:3306"
+      - "3307:3307"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
