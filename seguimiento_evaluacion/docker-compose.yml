@@ -50,7 +50,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8082:80"  # Cambiado de 8081 a 8082
+      - "8082:81"  # Cambiado de 8081 a 8082
     environment:
       - PMA_HOST=db
       - PMA_USER=seguimiento_user
