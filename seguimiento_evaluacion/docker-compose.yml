@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/app
     ports:
-      - "8001:8000"  # Cambiado de 8000 a 8001
+      - "8001:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -40,7 +40,7 @@ services:
       - MYSQL_PASSWORD=seguimiento_password
       - MYSQL_ROOT_PASSWORD=root_password
     ports:
-      - "3307:3306"  # Cambiado de 3307:3307 a 3307:3306
+      - "3307:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -50,7 +50,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     ports:
-      - "8082:81"  # Cambiado de 8081 a 8082
+      - "8083:80"  # Cambiado de 8082 a 8083
     environment:
       - PMA_HOST=db
       - PMA_USER=seguimiento_user
