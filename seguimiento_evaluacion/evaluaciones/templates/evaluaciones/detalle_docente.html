@@ -1,7 +1,7 @@
 {% extends 'evaluaciones/base.html' %}
 
 {% block content %}
-<div class="container-fluid mt-4">
+<div class="container-fluid mt-4" id="content-to-export">
     <div class="row">
         <div class="col-md-12 mb-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -9,24 +9,42 @@
                 <span class="badge bg-primary">{{ docente.carrera.nombre|default:"Carrera no especificada" }}</span>
             </div>
             
-            <!-- GRÁFICAS DE EVALUACIÓN (PRIMER VISTAMIENTO) -->
+            <!-- Botón de Exportar a PDF -->
+            <div class="text-end mb-3 no-print">
+                <button class="btn btn-danger" onclick="exportarPDF()">
+                    <i class="fas fa-file-pdf me-2"></i>Exportar a PDF
+                </button>
+            </div>
+            
+            <!-- GRÁFICAS DE EVALUACIÓN - Contenedor ajustado para PDF -->
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-gradient-primary text-white" style="background: linear-gradient(90deg, #4e73df 0%, #36b9cc 100%);">
                     <h4 class="mb-0"><i class="fas fa-chart-bar me-2"></i>Resumen Visual de Evaluaciones</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-4 d-flex flex-column align-items-center">
-                            <h5 class="text-center text-primary">Departamental</h5>
-                            <canvas id="graficaDepartamental" width="320" height="220"></canvas>
+                    <div class="row chart-row">
+                        <!-- Gráfica Departamental -->
+                        <div class="col-md-4 chart-container">
+                            <h5 class="text-center text-primary mb-3">Departamental</h5>
+                            <div style="height: 250px;">
+                                <canvas id="graficaDepartamental"></canvas>
+                            </div>
                         </div>
-                        <div class="col-md-4 d-flex flex-column align-items-center">
-                            <h5 class="text-center text-info">Autoevaluación</h5>
-                            <canvas id="graficaAuto" width="320" height="220"></canvas>
+                        
+                        <!-- Gráfica Autoevaluación -->
+                        <div class="col-md-4 chart-container">
+                            <h5 class="text-center text-info mb-3">Autoevaluación</h5>
+                            <div style="height: 250px;">
+                                <canvas id="graficaAuto"></canvas>
+                            </div>
                         </div>
-                        <div class="col-md-4 d-flex flex-column align-items-center">
-                            <h5 class="text-center text-secondary">Alumnos</h5>
-                            <canvas id="graficaAlumno" width="320" height="220"></canvas>
+                        
+                        <!-- Gráfica Alumnos (horizontal para mejor ajuste) -->
+                        <div class="col-md-4 chart-container">
+                            <h5 class="text-center text-secondary mb-3">Alumnos</h5>
+                            <div style="height: 250px;">
+                                <canvas id="graficaAlumno"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -273,15 +291,42 @@
                             <p class="text-center text-muted mb-0">Promedio ponderado de todas las evaluaciones</p>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Scripts necesarios -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
+    // Configuración común para todas las gráficas
+    const chartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { 
+            legend: { display: false },
+            title: { display: true, font: { size: 12 } }
+        },
+        scales: { 
+            y: { 
+                beginAtZero: true, 
+                max: 5,
+                ticks: { font: { size: 10 } }
+            },
+            x: {
+                ticks: { 
+                    font: { size: 10 },
+                    autoSkip: true,
+                    maxRotation: 45,
+                    minRotation: 45
+                }
+            }
+        }
+    };
+
     // Gráfica Departamental
     new Chart(document.getElementById('graficaDepartamental').getContext('2d'), {
         type: 'bar',
@@ -293,11 +338,7 @@
                 backgroundColor: '#1cc88a'
             }]
         },
-        options: {
-            responsive: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 5 } }
-        }
+        options: chartOptions
     });
 
     // Gráfica Autoevaluación
@@ -311,21 +352,15 @@
                 backgroundColor: '#36b9cc'
             }]
         },
-        options: {
-            responsive: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 5 } }
-        }
+        options: chartOptions
     });
 
-    // Gráfica Evaluación por Alumnos
+    // Gráfica Evaluación por Alumnos (horizontal para mejor ajuste)
     new Chart(document.getElementById('graficaAlumno').getContext('2d'), {
         type: 'bar',
         data: {
-            labels: [
-                'Dominio', 'Planificación', 'Ambientes', 'Estrategias', 'Motivación',
-                'Evaluación', 'Comunicación', 'Gestión', 'TI', 'Satisfacción'
-            ],
+            labels: ['Dominio', 'Planif.', 'Ambientes', 'Estrategias', 'Motivación', 
+                    'Evaluación', 'Comunic.', 'Gestión', 'TI', 'Satisf.'],
             datasets: [{
                 label: 'Puntaje',
                 data: [4.75, 4.50, 4.60, 4.80, 4.65, 4.70, 4.85, 4.55, 4.90, 4.75],
@@ -333,27 +368,142 @@
             }]
         },
         options: {
-            responsive: false,
-            plugins: { legend: { display: false } },
-            scales: { y: { beginAtZero: true, max: 5 } }
+            ...chartOptions,
+            indexAxis: 'y', // Gráfica horizontal
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 5,
+                    ticks: { font: { size: 10 } }
+                },
+                y: {
+                    ticks: { 
+                        font: { size: 10 },
+                        autoSkip: false
+                    }
+                }
+            }
         }
     });
-</script>
-<script>
+
+    // Función mejorada para exportar a PDF
     function exportarPDF() {
-        // Selecciona el contenido que quieres exportar (puedes ajustar el selector si quieres solo una parte)
-        var element = document.querySelector('.container-fluid');
-        var opt = {
-            margin:       0.2,
-            filename:     'detalle_docente.pdf',
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        // Selecciona el contenido a exportar
+        const element = document.getElementById('content-to-export');
+        
+        // Opciones de configuración mejoradas
+        const opt = {
+            margin: [10, 10, 10, 10], // [top, left, bottom, right]
+            filename: 'evaluacion_docente_{{ docente.user.get_full_name|slugify }}.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 2,
+                useCORS: true,
+                letterRendering: true,
+                allowTaint: true,
+                scrollY: 0,
+                windowWidth: document.documentElement.scrollWidth,
+                ignoreElements: (element) => element.classList.contains('no-print')
+            },
+            jsPDF: { 
+                unit: 'mm', 
+                format: 'a4', 
+                orientation: 'portrait',
+                compress: true
+            },
+            pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
         };
-        html2pdf().set(opt).from(element).save();
+        
+        // Agregar clase de impresión antes de generar
+        document.body.classList.add('printing-pdf');
+        
+        // Generar el PDF
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Remover clase después de generar
+            document.body.classList.remove('printing-pdf');
+        });
     }
 </script>
-<button class="btn btn-danger mb-3 d-print-none" onclick="exportarPDF()">
-    <i class="fas fa-file-pdf me-2"></i>Exportar a PDF
-</button>
+
+<style>
+    /* Estilos para impresión */
+    @media print {
+        body {
+            visibility: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        #content-to-export, #content-to-export * {
+            visibility: visible;
+        }
+        
+        #content-to-export {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .no-print, .no-print * {
+            display: none !important;
+        }
+        
+        .page-break {
+            page-break-after: always;
+        }
+        
+        .chart-container {
+            page-break-inside: avoid;
+        }
+        
+        .card {
+            page-break-inside: avoid;
+            margin-bottom: 15px !important;
+        }
+        
+        table {
+            page-break-inside: avoid;
+        }
+        
+        .progress {
+            height: 25px !important;
+        }
+    }
+    
+    /* Estilos específicos para PDF */
+    .printing-pdf .chart-container {
+        width: 100% !important;
+        height: 250px !important;
+    }
+    
+    .printing-pdf .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .printing-pdf canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Ajustes generales para mejor visualización en PDF */
+    .printing-pdf .card-body {
+        padding: 1rem !important;
+    }
+    
+    .printing-pdf .table {
+        font-size: 0.85rem !important;
+    }
+    
+    .printing-pdf .lead {
+        font-size: 1.1rem !important;
+    }
+    
+    .printing-pdf h2, .printing-pdf h4, .printing-pdf h5 {
+        margin-bottom: 0.5rem !important;
+    }
+</style>
 {% endblock %}
