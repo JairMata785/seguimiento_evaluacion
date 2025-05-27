@@ -35,6 +35,11 @@ class Command(BaseCommand):
             ('ana.martinez', 'Ana', 'Martínez López', 'D004', 'MALA800430GHI', sistemas),
             ('carlos.rodriguez', 'Carlos', 'Rodríguez Sánchez', 'D005', 'ROSC760815JKL', sistemas),
             ('patricia.gomez', 'Patricia', 'Gómez Torres', 'D006', 'GOTP820925MNO', informatica),
+            # Nuevos docentes
+            ('sofia.mendez', 'Sofía', 'Méndez Ruiz', 'D007', 'MERU830101PQR', sistemas),
+            ('ricardo.santos', 'Ricardo', 'Santos Díaz', 'D008', 'SADR840202STU', informatica),
+            ('elena.flores', 'Elena', 'Flores Vega', 'D009', 'FOVE850303VWX', sistemas),
+            ('fernando.hernandez', 'Fernando', 'Hernández Gil', 'D010', 'HEGI860404YZA', informatica),
         ]
 
         docentes_creados = []
@@ -65,6 +70,13 @@ class Command(BaseCommand):
             ('SIS101', 'Programación Avanzada', 'A', sistemas),
             ('SIS102', 'Bases de Datos', 'B', sistemas),
             ('INF104', 'Inteligencia Artificial', 'B', informatica),
+            # Nuevas materias
+            ('SIS103', 'Redes de Computadoras', 'C', sistemas),
+            ('INF105', 'Minería de Datos', 'C', informatica),
+            ('SIS104', 'Sistemas Operativos', 'D', sistemas),
+            ('INF106', 'Desarrollo Web', 'D', informatica),
+            ('SIS105', 'Ciberseguridad', 'E', sistemas),
+            ('INF107', 'Big Data', 'E', informatica),
         ]
 
         materias_creadas = []
@@ -85,8 +97,14 @@ class Command(BaseCommand):
             ('juan.perez', 'Juan', 'Pérez', '2020123456', sistemas),
             ('maria.garcia', 'María', 'García', '2020123457', sistemas),
             ('pedro.lopez', 'Pedro', 'López', '2020123458', informatica),
-            ('ana.martinez.est', 'Ana', 'Martínez', '2020123459', informatica),  # Cambiado el username
+            ('ana.martinez.est', 'Ana', 'Martínez', '2020123459', informatica),
             ('luis.rodriguez', 'Luis', 'Rodríguez', '2020123460', sistemas),
+            # Nuevos alumnos
+            ('sofia.ramirez', 'Sofía', 'Ramírez', '2020123461', informatica),
+            ('diego.torres', 'Diego', 'Torres', '2020123462', sistemas),
+            ('valeria.morales', 'Valeria', 'Morales', '2020123463', informatica),
+            ('alejandro.mendez', 'Alejandro', 'Méndez', '2020123464', sistemas),
+            ('paola.sanchez', 'Paola', 'Sánchez', '2020123465', informatica),
         ]
 
         estudiantes_creados = []
